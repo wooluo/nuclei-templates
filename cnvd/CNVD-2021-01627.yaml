@@ -1,0 +1,32 @@
+id: CNVD-2021-01627
+
+info:
+  name: CNVD-2021-01627
+  author: zhangliang01
+  severity: high
+  description: upload
+  reference: |
+    - http://www.peiqi.tech/posts/16435/
+  tags: upload,webshell
+
+requests:
+  - raw:
+      - |
+        GET /seeyon/thirdpartyController.do.css/..;/ajax.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0
+        Content-Type: application/x-www-form-urlencoded
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        
+    matchers-condition: and
+    matchers:
+      - type: regex
+        regex:
+          - "出现异常：java.lang.NullPointerException:null"
+        part: body
+
+      - type: status
+        status:
+          - 200
